@@ -19,10 +19,11 @@ namespace Color_Em_Up
         [field: SerializeField] public MoveBehavior         MoveBehavior         { get; private set; }
         [field: SerializeField] public MoveInWaveBehavior   MoveInWaveBehavior   { get; private set; }
         [field: SerializeField] public MoveInCircleBehavior MoveInCircleBehavior { get; private set; }
+        [field: SerializeField] public BodyTiltingBehavior  BodyTiltingBehavior  { get; private set; }
         
         [field: SerializeField] public ColliderControl      ColliderControl { get; private set; }
         [field: SerializeField] public EnemyRenderControl   RenderControl   { get; private set; }
-
+        
         public void Initialized()
         {
             dataManager     = ApplicationManager.Instance.Get<DataManager>();
@@ -31,8 +32,11 @@ namespace Color_Em_Up
             MoveBehavior
                 .SetTargetRigidbody(ColliderControl.Rigidbody);
 
-            MoveInWaveBehavior  .SetTarget(transform);
-            MoveInCircleBehavior.SetTarget(transform);
+            MoveInCircleBehavior
+                .SetTarget(transform);
+            
+            BodyTiltingBehavior.Initialized();
+            BodyTiltingBehavior.StartTilting();
             
             RenderControl.Initialized();
         }

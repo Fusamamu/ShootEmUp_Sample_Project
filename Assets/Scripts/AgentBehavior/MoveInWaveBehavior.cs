@@ -11,6 +11,7 @@ namespace Color_Em_Up
         private Transform target;
 
         [field: SerializeField] public Vector3 OriginPosition { get; private set; }
+        [field: SerializeField] public float   ForwardSpeed   { get; private set; }
         [field: SerializeField] public float   SineSpeed      { get; private set; }
         [field: SerializeField] public float   HeightOffset   { get; private set; }
 
@@ -20,6 +21,12 @@ namespace Color_Em_Up
         {
             target         = _target;
             OriginPosition = _target.transform.position;
+            return this;
+        }
+        
+        public MoveInWaveBehavior SetForwardSpeed(float _speed)
+        {
+            ForwardSpeed = _speed;
             return this;
         }
 
@@ -41,7 +48,11 @@ namespace Color_Em_Up
             
             moveProcess = Observable.EveryLateUpdate().Subscribe(_ =>
             {
-                transform.position = OriginPosition + new Vector3(Mathf.Sin(Time.time * SineSpeed), HeightOffset, 0.0f);
+                var _yPos = HeightOffset;
+                var _zPos = transform.position.z - Time.deltaTime * ForwardSpeed;
+                var _xPos = Mathf.Sin(_zPos) * 3;
+                
+                transform.position = new Vector3(_xPos, _yPos, _zPos);
 
             }).AddTo(this);
         }

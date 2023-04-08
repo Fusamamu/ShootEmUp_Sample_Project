@@ -38,10 +38,15 @@ namespace Color_Em_Up
                 _enemy.RenderControl
                     .SetColorType(_enemyType);
                 
-                _enemy.MoveBehavior
-                    .SetMoveSpeed(150)
-                    .SetForceMode(ForceMode.Force)
-                    .MoveBackward();
+                // _enemy.MoveBehavior
+                //     .SetMoveSpeed(150)
+                //     .SetForceMode(ForceMode.Force)
+                //     .MoveBackward();
+                
+                _enemy.MoveInWaveBehavior
+                    .SetForwardSpeed(5f)
+                    .SetSineSpeed(5f)
+                    .StartMoveInSineWave();
                 
                 _count--;
             }
