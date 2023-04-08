@@ -6,6 +6,6 @@ namespace Color_Em_Up
 {
     public enum EnemyType
     {
-       RED, GREEN, BLUE
+	    A, B, C
     }
 }

@@ -23,13 +23,20 @@ namespace Color_Em_Up
         }
         
         //Can pass enemy data
-        public IEnumerator SpawnEnemyIntervalAtPosition(int _count, float _secondInterval, Vector3 _targetPos)
+        public IEnumerator SpawnEnemyIntervalAtPosition(EnemyData _enemyData, Vector3 _targetPos)
         {
+            var _enemyType      = _enemyData.Type;
+            var _count          = _enemyData.EnemyCount;
+            var _secondInterval = _enemyData.SpawnInterval;
+            
             while (_count >= 0)
             {
                 yield return new WaitForSeconds(_secondInterval);
                 
                 var _enemy = SpawnEnemyAtPosition(_targetPos);
+                
+                _enemy.RenderControl
+                    .SetColorType(_enemyType);
                 
                 _enemy.MoveBehavior
                     .SetMoveSpeed(150)

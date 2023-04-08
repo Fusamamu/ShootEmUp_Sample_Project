@@ -16,9 +16,13 @@ namespace Color_Em_Up
             }
             
             if (_collider.gameObject.TryGetComponent<Bullet>(out var _bullet))
-            {
                 _bullet.ReturnToPool();
-            }
+            
+            if (_collider.gameObject.TryGetComponent<Enemy>(out var _enemy))
+                _enemy.ReturnToPool();
+            
+            if (_collider.gameObject.TryGetComponent<Asteroid>(out var _asteroid))
+                _asteroid.ReturnToPool();
         }
     }
 }

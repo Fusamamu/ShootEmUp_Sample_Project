@@ -11,7 +11,6 @@ namespace Color_Em_Up
 
         public bool IsInPool { get; set; }
 
-        private EnemyManager enemyManager;
         private DataManager     dataManager;
         private ParticleManager particleManager;
 
@@ -21,12 +20,11 @@ namespace Color_Em_Up
         [field: SerializeField] public MoveInWaveBehavior   MoveInWaveBehavior   { get; private set; }
         [field: SerializeField] public MoveInCircleBehavior MoveInCircleBehavior { get; private set; }
         
-        [field: SerializeField] public ColliderControl ColliderControl { get; private set; }
-        [field: SerializeField] public RenderControl   RenderControl   { get; private set; }
+        [field: SerializeField] public ColliderControl      ColliderControl { get; private set; }
+        [field: SerializeField] public EnemyRenderControl   RenderControl   { get; private set; }
 
         public void Initialized()
         {
-            enemyManager    = ApplicationManager.Instance.Get<EnemyManager>();
             dataManager     = ApplicationManager.Instance.Get<DataManager>();
             particleManager = ApplicationManager.Instance.Get<ParticleManager>();
             
@@ -35,6 +33,8 @@ namespace Color_Em_Up
 
             MoveInWaveBehavior  .SetTarget(transform);
             MoveInCircleBehavior.SetTarget(transform);
+            
+            RenderControl.Initialized();
         }
         
         public void SetPool(IObjectPool<Enemy> _pool)

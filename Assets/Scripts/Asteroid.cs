@@ -29,7 +29,8 @@ namespace Color_Em_Up
         
         public void ReturnToPool()
         {
-            Pool?.Release(this);
+            if(!IsInPool)
+                Pool?.Release(this);
         }
         
         public void DestroyEntity()

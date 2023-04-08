@@ -85,12 +85,9 @@ namespace Color_Em_Up
             while (_currentEnemyGroupIndex < _waveData.EnemyGroupCount)
             {
                 var _enemyData = _waveData.EnemyData[_currentEnemyGroupIndex];
+                var _targetPos = SpawnPoint.GetRandomPoint();
 
-                yield return enemyManager.SpawnEnemyIntervalAtPosition(
-                    _enemyData.EnemyCount, 
-                    _enemyData.SpawnInterval, 
-                    SpawnPoint.GetRandomPoint()
-                    );
+                yield return enemyManager.SpawnEnemyIntervalAtPosition(_enemyData, _targetPos);
 
                 yield return new WaitUntil(() => WaveTimer <= 0);
 

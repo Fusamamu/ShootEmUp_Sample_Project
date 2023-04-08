@@ -13,6 +13,7 @@ namespace Color_Em_Up
         [SerializeField] private float XAxisInterval;
         [SerializeField] private float Height;
         [SerializeField] private Vector3 OriginOffset;
+        
         [SerializeField] private int previousRandomIndex;
 
         [field: SerializeField] public List<Transform> SpawnPoints { get; private set; } = new List<Transform>();

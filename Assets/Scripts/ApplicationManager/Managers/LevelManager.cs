@@ -106,7 +106,7 @@ namespace Color_Em_Up
         public void RunLevel()
         {
             playerManager.SpawnPlayer();
-            
+            asteroidManager.StartSpawn();
             levelUpdateProcess = StartCoroutine(UpdateLevel());
         }
 

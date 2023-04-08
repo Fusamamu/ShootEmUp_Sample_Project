@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 8389031622196365954}
   - component: {fileID: 8389031622196365955}
   - component: {fileID: 4705106444997296629}
-  - component: {fileID: 8820620162086837377}
+  - component: {fileID: 2953590061826583048}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
@@ -185,7 +185,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2881e3d0d9fe7494ea5906f43183ffc2, type: 2}
+  - {fileID: 2100000, guid: d7d3cabecaa8c4fe4862624208b3c072, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -253,9 +253,7 @@ MonoBehaviour:
   <MoveInWaveBehavior>k__BackingField: {fileID: 8389031622196365954}
   <MoveInCircleBehavior>k__BackingField: {fileID: 8389031622196365955}
   <ColliderControl>k__BackingField: {fileID: 4705106444997296629}
-  <RenderControl>k__BackingField: {fileID: 8820620162086837377}
-  OnDestroyedParticlePrefab: {fileID: 8441317587277835951, guid: 39a00b558f929438f889564ac04fecbd, type: 3}
-  OnDestroyedParticle: {fileID: 0}
+  <RenderControl>k__BackingField: {fileID: 2953590061826583048}
 --- !u!114 &8389031622196365953
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,7 +314,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Collider>k__BackingField: {fileID: 8915422612863639587}
   <Rigidbody>k__BackingField: {fileID: 5502021553149999431}
---- !u!114 &8820620162086837377
+--- !u!114 &2953590061826583048
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -325,9 +323,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5228636191501836187}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8f0ff8dc25554624a9d1a4d37e6cbdd, type: 3}
+  m_Script: {fileID: 11500000, guid: 3f05f9c9759434633a5cf3854cc70329, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   MeshFilter: {fileID: 8389031622196365956}
   Renderer: {fileID: 6021071469865893454}
   Material: {fileID: 2100000, guid: 2881e3d0d9fe7494ea5906f43183ffc2, type: 2}
+  Color_A: {fileID: 2100000, guid: 2881e3d0d9fe7494ea5906f43183ffc2, type: 2}
+  Color_B: {fileID: 2100000, guid: cf9db19c609be4de086e5ea84aa2a044, type: 2}
+  Color_C: {fileID: 2100000, guid: d7d3cabecaa8c4fe4862624208b3c072, type: 2}

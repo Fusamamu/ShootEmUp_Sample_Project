@@ -10,7 +10,7 @@ namespace Color_Em_Up
         public Renderer   Renderer;
         public Material   Material;
 
-        public void Initialized()
+        public virtual void Initialized()
         {
             
         }

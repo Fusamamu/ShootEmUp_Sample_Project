@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Color_Em_Up
 {
-    public class AsteroidPool :PoolSystem<Asteroid>
+    public class AsteroidPool : PoolSystem<Asteroid>
     {
         private readonly List<Asteroid> activeAsteroids = new List<Asteroid>();
         
@@ -33,11 +33,15 @@ namespace Color_Em_Up
         protected override void OnGetObject(Asteroid _asteroid)
         {
             _asteroid.gameObject.SetActive(true);
+            _asteroid.IsInPool = false;
+            
             activeAsteroids.Add(_asteroid);
         }
 
         protected override void OnRelease(Asteroid _asteroid)
         {
+            _asteroid.ColliderControl.Rigidbody.velocity = Vector3.zero;
+            _asteroid.IsInPool = true;
             _asteroid.gameObject.SetActive(false);
         }
 
