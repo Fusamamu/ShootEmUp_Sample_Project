@@ -74,7 +74,7 @@ namespace Color_Em_Up
 
         public void Shoot(InputAction.CallbackContext _callbackContext)
         {
-            var _bullet = bulletManager.BulletPool.Pool.Get();
+            var _bullet = bulletManager.PoolSystem.Pool.Get();
 
             if (_bullet)
             {

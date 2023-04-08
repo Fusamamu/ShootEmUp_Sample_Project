@@ -35,12 +35,15 @@ namespace Color_Em_Up
         protected override void OnGetObject(Enemy _enemy)
         {
             _enemy.gameObject.SetActive(true);
+            _enemy.IsInPool = false;
+            
             activeEnemies.Add(_enemy);
         }
 
         protected override void OnRelease(Enemy _enemy)
         {
             _enemy.ColliderControl.Rigidbody.velocity = Vector3.zero;
+            _enemy.IsInPool = true;
             _enemy.gameObject.SetActive(false);
         }
 

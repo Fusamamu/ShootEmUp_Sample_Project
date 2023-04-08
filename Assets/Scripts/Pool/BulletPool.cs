@@ -32,12 +32,15 @@ namespace Color_Em_Up
         protected override void OnGetObject(Bullet _bullet)
         {
             _bullet.gameObject.SetActive(true);
+            _bullet.IsInPool = false;
+            
             activeBullets.Add(_bullet);
         }
 
         protected override void OnRelease(Bullet _bullet)
         {
             _bullet.ColliderControl.Rigidbody.velocity = Vector3.zero;
+            _bullet.IsInPool = true;
             _bullet.gameObject.SetActive(false);
         }
 

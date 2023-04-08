@@ -6,6 +6,6 @@ namespace Color_Em_Up
 {
     public interface IEntity
     {
-        public void DestroyedEntity();
+        public void DestroyEntity();
     }
 }

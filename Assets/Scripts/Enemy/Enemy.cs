@@ -8,7 +8,9 @@ namespace Color_Em_Up
     public class Enemy : MonoBehaviour, IEntity, IPoolAble<Enemy>
     {
         public IObjectPool<Enemy> Pool { get; private set; }
-        
+
+        public bool IsInPool { get; set; }
+
         private EnemyManager enemyManager;
         private DataManager     dataManager;
         private ParticleManager particleManager;
@@ -42,17 +44,18 @@ namespace Color_Em_Up
         
         public void ReturnToPool()
         {
-            Pool?.Release(this);
+            if(!IsInPool)
+                Pool?.Release(this);
         }
 
         public void OnHitHandler(Bullet _bullet)
         {
-            DestroyedEntity();
+            DestroyEntity();
         }
 
-        public void DestroyedEntity()
+        public void DestroyEntity()
         {
-            var _p = particleManager.ParticlePool.Pool.Get().OnEnemyDestroyedParticle;
+            var _p = particleManager.PoolSystem.Pool.Get().OnEnemyDestroyedParticle;
             _p.transform.position = transform.position;
             _p.Play();
             

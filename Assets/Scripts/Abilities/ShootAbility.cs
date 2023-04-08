@@ -19,7 +19,7 @@ namespace Color_Em_Up
         
         public override void Perform()
         {
-            var _bullet = bulletManager.BulletPool.Pool.Get();
+            var _bullet = bulletManager.PoolSystem.Pool.Get();
             
             shoot = Observable.EveryUpdate().Subscribe(_ =>
             {

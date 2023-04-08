@@ -119,5 +119,11 @@ namespace Color_Em_Up
                 .SetForceMode(ForceMode.Force)
                 .MoveBackward();
         }
+
+        public void Reset()
+        {
+            StopWaveTime();
+            waveProgressBarUI.ResetAllProgressBars();
+        }
     }
 }

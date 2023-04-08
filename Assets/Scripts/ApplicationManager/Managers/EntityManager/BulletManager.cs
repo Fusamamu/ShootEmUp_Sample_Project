@@ -5,21 +5,21 @@ using UnityEngine;
 namespace Color_Em_Up
 {
     [RequireComponent(typeof(BulletPool))]
-    public class BulletManager : AppManager
+    public class BulletManager : AppManager, IEntityManager<BulletPool, Bullet>
     {
-        [field: SerializeField] public BulletPool BulletPool { get; private set; }
+        [field: SerializeField] public BulletPool PoolSystem { get; private set; }
 
         public override void Initialized()
         {
             base.Initialized();
 
-            if (!BulletPool)
+            if (!PoolSystem)
             {
                 Debug.LogWarning($"Missing BulletPool!");
                 return;
             }
             
-            BulletPool.Initialized();
+            PoolSystem.Initialized();
         }
     }
 }

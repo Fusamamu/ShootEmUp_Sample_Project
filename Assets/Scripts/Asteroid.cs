@@ -5,9 +5,11 @@ using UnityEngine.Pool;
 
 namespace Color_Em_Up
 {
-    public class Asteroid : MonoBehaviour, IPoolAble<Asteroid>
+    public class Asteroid : MonoBehaviour, IEntity, IPoolAble<Asteroid>
     {
         public IObjectPool<Asteroid> Pool { get; private set; }
+        
+        public bool IsInPool { get; set; }
         
         [field: SerializeField] public MoveBehavior MoveBehavior { get; private set; }
         
@@ -28,6 +30,11 @@ namespace Color_Em_Up
         public void ReturnToPool()
         {
             Pool?.Release(this);
+        }
+        
+        public void DestroyEntity()
+        {
+            ReturnToPool();
         }
     }
 }

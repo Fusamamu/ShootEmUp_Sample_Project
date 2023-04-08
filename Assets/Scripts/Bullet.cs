@@ -7,9 +7,11 @@ using UnityEngine.Pool;
 
 namespace Color_Em_Up
 {
-    public class Bullet : MonoBehaviour, IPoolAble<Bullet>
+    public class Bullet : MonoBehaviour, IEntity, IPoolAble<Bullet>
     {
         public IObjectPool<Bullet> Pool { get; private set; }
+        
+        public bool IsInPool { get; set; }
         
         [SerializeField] private float Damage;
         [SerializeField] private float Velocity;
@@ -22,9 +24,7 @@ namespace Color_Em_Up
 
         public void Initialized()
         {
-            // Observable.Timer(TimeSpan.FromSeconds(SelfDestroyTimer))
-            //     .Subscribe(_ => ReturnToPool())
-            //     .AddTo(this);
+         
         }
         
         public void SetPool(IObjectPool<Bullet> _pool)
@@ -34,7 +34,8 @@ namespace Color_Em_Up
         
         public void ReturnToPool()
         {
-            Pool?.Release(this);
+            if(!IsInPool)
+                Pool?.Release(this);
         }
 
         public Bullet SetDirection(Vector3 _direction)
@@ -62,6 +63,10 @@ namespace Color_Em_Up
             }
            
             ReturnToPool();
+        }
+        
+        public void DestroyEntity()
+        {
         }
     }
 }

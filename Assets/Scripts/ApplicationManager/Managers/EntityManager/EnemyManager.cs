@@ -5,21 +5,21 @@ using UnityEngine;
 namespace Color_Em_Up
 {
     [RequireComponent(typeof(EnemyPool))]
-    public class EnemyManager : AppManager
+    public class EnemyManager : AppManager, IEntityManager<EnemyPool, Enemy>
     {
-        [SerializeField] private EnemyPool EnemyPool;
+        [field: SerializeField] public EnemyPool PoolSystem { get; private set; }
 
         public override void Initialized()
         {
             base.Initialized();
 
-            if (!EnemyPool)
+            if (!PoolSystem)
             {
                 Debug.LogWarning($"Missing EnemyPool!");
                 return;
             }
             
-            EnemyPool.Initialized();
+            PoolSystem.Initialized();
         }
         
         //Can pass enemy data
@@ -42,7 +42,7 @@ namespace Color_Em_Up
       
         public Enemy SpawnEnemyAtPosition(Vector3 _targetPos)
         {
-            var _newEnemy = EnemyPool.Pool.Get();
+            var _newEnemy = PoolSystem.Pool.Get();
             
             _newEnemy.transform.position = _targetPos;
 

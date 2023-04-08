@@ -5,12 +5,14 @@ using UnityEngine.Pool;
 
 namespace Color_Em_Up
 {
-    public class GameParticle : MonoBehaviour, IPoolAble<GameParticle>
+    public class GameParticle : MonoBehaviour, IEntity, IPoolAble<GameParticle>
     {
         [field: SerializeField] public ParticleSystem ShootingParticle         { get; private set; }
         [field: SerializeField] public ParticleSystem OnEnemyDestroyedParticle { get; private set; }
         
         public IObjectPool<GameParticle> Pool { get; private set; }
+        
+        public bool IsInPool { get; set; }
 
         public void Initialized()
         {
@@ -25,6 +27,11 @@ namespace Color_Em_Up
         public void ReturnToPool()
         {
             Pool?.Release(this);
+        }
+        
+        public void DestroyEntity()
+        {
+            ReturnToPool();
         }
     }
 }

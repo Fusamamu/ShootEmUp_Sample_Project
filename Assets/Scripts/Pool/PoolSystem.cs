@@ -6,7 +6,7 @@ using UnityEngine.Pool;
 
 namespace Color_Em_Up
 {
-    public class PoolSystem<T> : MonoBehaviour where T : MonoBehaviour
+    public class PoolSystem<T> : MonoBehaviour where T : Component, IEntity
     {
         public IObjectPool<T> Pool { get; private set; }
 

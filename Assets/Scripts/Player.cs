@@ -1,9 +1,7 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using MoreMountains.Feedbacks;
 using UniRx;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Color_Em_Up
@@ -75,14 +73,14 @@ namespace Color_Em_Up
         {
             if (_other.gameObject.TryGetComponent<Enemy>(out var _enemy))
             {
-                _enemy.DestroyedEntity();
+                _enemy.DestroyEntity();
             }
 
             if (!IsCoolDown)
-                DestroyedEntity();
+                DestroyEntity();
         }
         
-        public void DestroyedEntity()
+        public void DestroyEntity()
         {
             playerManager.NotifyPlayerIsDestroyed(this);
         }

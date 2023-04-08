@@ -4,26 +4,26 @@ using UnityEngine;
 
 namespace Color_Em_Up
 {
-    public class AsteroidManager : AppManager
+    public class AsteroidManager : AppManager, IEntityManager<AsteroidPool, Asteroid>
     {
-        [SerializeField] private AsteroidPool AsteroidPool;
+        [field: SerializeField] public AsteroidPool PoolSystem { get; private set; }
 
         public override void Initialized()
         {
             base.Initialized();
 
-            if (!AsteroidPool)
+            if (!PoolSystem)
             {
                 Debug.LogWarning($"Missing AsteroidPool!");
                 return;
             }
             
-            AsteroidPool.Initialized();
+            PoolSystem.Initialized();
         }
         
         public Asteroid SpawnAsteroidAtPosition(Vector3 _targetPos)
         {
-            var _newAsteroid = AsteroidPool.Pool.Get();
+            var _newAsteroid = PoolSystem.Pool.Get();
             _newAsteroid.transform.position = _targetPos;
 
             return _newAsteroid;

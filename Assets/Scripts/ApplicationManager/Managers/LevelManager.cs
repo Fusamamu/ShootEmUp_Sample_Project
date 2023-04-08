@@ -14,7 +14,10 @@ namespace Color_Em_Up
         private Dictionary<int, LevelData> levelTable = new Dictionary<int, LevelData>();
 
         private PlayerManager   playerManager;
+        private EnemyManager    enemyManager;
         private WaveManager     waveManager;
+        private ParticleManager particleManager;
+        private BulletManager   bulletManager;
         private AsteroidManager asteroidManager;
         
         private UIManager   uiManager;
@@ -26,15 +29,20 @@ namespace Color_Em_Up
         private string levelChange   = "LevelChange";
         private string gameOverState = "GameOver";
 
-        private Coroutine leveUpdateProcess;
+        private Coroutine levelUpdateProcess;
         
         public override void Initialized()
         {
             base.Initialized();
 
             playerManager   = ApplicationManager.Instance.Get<PlayerManager>();
+            enemyManager    = ApplicationManager.Instance.Get<EnemyManager>();
             waveManager     = ApplicationManager.Instance.Get<WaveManager>();
+            
+            particleManager = ApplicationManager.Instance.Get<ParticleManager>();
+            bulletManager   = ApplicationManager.Instance.Get<BulletManager>();
             asteroidManager = ApplicationManager.Instance.Get<AsteroidManager>();
+            
             uiManager       = ApplicationManager.Instance.Get<UIManager>();
 
             topHeaderUI = uiManager.GetUI<TopHeaderUI>();
@@ -82,6 +90,11 @@ namespace Color_Em_Up
                 {
                   
                 }));
+
+            playerManager.OnGameOverEvent += _player =>
+            {
+                StopUpdateLevel();
+            };
         }
 
         public LevelManager SetLeveIndex(int _index)
@@ -94,7 +107,7 @@ namespace Color_Em_Up
         {
             playerManager.SpawnPlayer();
             
-            leveUpdateProcess = StartCoroutine(UpdateLevel());
+            levelUpdateProcess = StartCoroutine(UpdateLevel());
         }
 
         private IEnumerator UpdateLevel()
@@ -130,6 +143,26 @@ namespace Color_Em_Up
                 
                 _currentWaveIndex++;
             }
+        }
+
+        public void StopUpdateLevel()
+        {
+            StopCoroutine(levelUpdateProcess);
+            levelUpdateProcess = null;
+        }
+
+        public void RestartLevel()
+        {
+            enemyManager   .PoolSystem.ClearPool();
+            bulletManager  .PoolSystem.ClearPool();
+            particleManager.PoolSystem.ClearPool();
+            asteroidManager.PoolSystem.ClearPool();
+            
+            waveManager  .Reset();
+            playerManager.Reset();
+            
+            CurrentLevelIndex = 0;
+            RunLevel();
         }
     }
 }
