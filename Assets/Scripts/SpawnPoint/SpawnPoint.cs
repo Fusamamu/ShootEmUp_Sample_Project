@@ -13,12 +13,26 @@ namespace Color_Em_Up
         [SerializeField] private float XAxisInterval;
         [SerializeField] private float Height;
         [SerializeField] private Vector3 OriginOffset;
+        [SerializeField] private int previousRandomIndex;
 
         [field: SerializeField] public List<Transform> SpawnPoints { get; private set; } = new List<Transform>();
 
         public Vector3 GetRandomPoint()
         {
-            var _randRomIndex = Random.Range(0, SpawnPoints.Count);
+            int _randRomIndex = Random.Range(0, SpawnPoints.Count);
+
+            int _randomCount = 10;
+            
+            while (_randRomIndex == previousRandomIndex)
+            {
+                if(_randomCount <= 0)
+                    break;
+                
+                _randRomIndex =  Random.Range(0, SpawnPoints.Count);
+                _randomCount--;
+            }
+
+            previousRandomIndex = _randRomIndex;
             
             return SpawnPoints[_randRomIndex].position;
         }

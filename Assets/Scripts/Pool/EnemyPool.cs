@@ -8,9 +8,23 @@ namespace Color_Em_Up
     {
         private readonly List<Enemy> activeEnemies = new List<Enemy>();
         
+        private GameObject enemyParent;
+        
+        public override void Initialized()
+        {
+            base.Initialized();
+
+            enemyParent = new GameObject("_Enemy_")
+            {
+                transform = { position = Vector3.zero }
+            };
+        }
+        
         protected override Enemy CreateObject()
         {
-            var _enemy = Instantiate(Prefab, Vector3.zero, Quaternion.identity);
+            var _enemy = Instantiate(Prefab, Vector3.zero, Quaternion.Euler(new Vector3(0, 180, 0)), enemyParent.transform);
+
+            _enemy.name = $"Enemy";
             
             _enemy.SetPool(Pool);
             _enemy.Initialized();

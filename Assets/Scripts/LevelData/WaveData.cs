@@ -10,7 +10,22 @@ namespace Color_Em_Up
     {
         public int EnemyGroupCount => EnemyData.Count;
         
-        public float TimeLength;
+        public float TimeLength {
+
+            get
+            {
+                var _totalTimeLength = 0f;
+
+                foreach (var _enemyData in EnemyData)
+                {
+                    var _totalEnemySpawnTime = _enemyData.EnemyCount * _enemyData.SpawnInterval;
+                    _totalTimeLength += _totalEnemySpawnTime;
+                }
+
+                return _totalTimeLength * 2 + NextWaveDelay;
+            }
+        }
+        public float NextWaveDelay;
 
         public List<EnemyData> EnemyData;
     }

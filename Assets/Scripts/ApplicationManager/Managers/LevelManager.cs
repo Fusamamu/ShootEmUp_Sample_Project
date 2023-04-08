@@ -16,12 +16,17 @@ namespace Color_Em_Up
         private PlayerManager   playerManager;
         private WaveManager     waveManager;
         private AsteroidManager asteroidManager;
+        
+        private UIManager   uiManager;
+        private TopHeaderUI topHeaderUI;
 
         private StateMachine gameStateMachine = new StateMachine();
 
         private string levelRun      = "LevelChange";
         private string levelChange   = "LevelChange";
         private string gameOverState = "GameOver";
+
+        private Coroutine leveUpdateProcess;
         
         public override void Initialized()
         {
@@ -30,6 +35,9 @@ namespace Color_Em_Up
             playerManager   = ApplicationManager.Instance.Get<PlayerManager>();
             waveManager     = ApplicationManager.Instance.Get<WaveManager>();
             asteroidManager = ApplicationManager.Instance.Get<AsteroidManager>();
+            uiManager       = ApplicationManager.Instance.Get<UIManager>();
+
+            topHeaderUI = uiManager.GetUI<TopHeaderUI>();
 
             for (var _i = 0; _i < LevelData.Count; _i++)
             {
@@ -76,14 +84,32 @@ namespace Color_Em_Up
                 }));
         }
 
+        public LevelManager SetLeveIndex(int _index)
+        {
+            CurrentLevelIndex = _index;
+            return this;
+        }
+
         public void RunLevel()
         {
-            // gameStateMachine.SetStartState(levelRun);
-            // gameStateMachine.Init();
-
             playerManager.SpawnPlayer();
             
-            StartCoroutine(StartLevel());
+            leveUpdateProcess = StartCoroutine(UpdateLevel());
+        }
+
+        private IEnumerator UpdateLevel()
+        {
+            while (CurrentLevelIndex < LevelData.Count)
+            {
+                topHeaderUI
+                    .SetLevelUI(CurrentLevelIndex + 1)
+                    .WaveProgressBarUI
+                    .ResetAllProgressBars();
+                
+                yield return SetLeveIndex(CurrentLevelIndex).StartLevel();
+                   
+                CurrentLevelIndex++;
+            }
         }
 
         public IEnumerator StartLevel()
@@ -96,8 +122,11 @@ namespace Color_Em_Up
             while (_currentWaveIndex < _levelData.WaveCount)
             {
                 var _currentWave = _levelData.WaveData[_currentWaveIndex];
-
-                yield return waveManager.StartWave(_currentWave);
+                
+                yield return waveManager
+                    .SetWaveIndex  (_currentWaveIndex)
+                    .StartWaveTimer(_currentWave)
+                    .StartWave     (_currentWave);
                 
                 _currentWaveIndex++;
             }
