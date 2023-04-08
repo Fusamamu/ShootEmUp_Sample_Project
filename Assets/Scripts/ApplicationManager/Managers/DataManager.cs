@@ -9,21 +9,25 @@ namespace Color_Em_Up
         [field: SerializeField] public int HighScore    { get; private set; }
         [field: SerializeField] public int CurrentScore { get; private set; }
 
-        private UIManager uiManager;
-        private TopLeftUI topLeftUI;
+        [SerializeField] private UIManager UIManager;
+        [SerializeField] private TopLeftUI TopLeftUI;
         
         public override void Initialized()
         {
             base.Initialized();
+        }
 
-            uiManager = ApplicationManager.Instance.Get<UIManager>();
-            topLeftUI = uiManager.GetUI<TopLeftUI>();
+        public DataManager IncreaseScore(int _value)
+        {
+            CurrentScore += _value;
+            TopLeftUI.ScoreUI.SetScore(CurrentScore);
+            return this;
         }
 
         public DataManager SetCurrentScore(int _score)
         {
             CurrentScore = _score;
-            topLeftUI.ScoreUI.SetScore(_score);
+            TopLeftUI.ScoreUI.SetScore(CurrentScore);
             return this;
         }
     }

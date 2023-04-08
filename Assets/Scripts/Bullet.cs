@@ -58,15 +58,7 @@ namespace Color_Em_Up
         {
             if (_other.gameObject.TryGetComponent<Enemy>(out var _enemy))
             {
-                // //Temp 
-                // var _hitParticle = Resources.Load<ParticleSystem>("Prefabs/ParticleEffects/HitExplosion");
-                //
-                // var _hitObject = Instantiate(_hitParticle, _enemy.transform.position, Quaternion.identity);
-                //
-                // _hitObject.Play();
-                
-                // _enemy.PlayFeedback();
-                // _enemy.TakeDamage(damage);
+                _enemy.OnHitHandler(this);
             }
            
             ReturnToPool();

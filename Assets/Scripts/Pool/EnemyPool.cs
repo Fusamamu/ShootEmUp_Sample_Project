@@ -40,6 +40,7 @@ namespace Color_Em_Up
 
         protected override void OnRelease(Enemy _enemy)
         {
+            _enemy.ColliderControl.Rigidbody.velocity = Vector3.zero;
             _enemy.gameObject.SetActive(false);
         }
 

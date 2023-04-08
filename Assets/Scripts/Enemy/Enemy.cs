@@ -10,6 +10,8 @@ namespace Color_Em_Up
         public IObjectPool<Enemy> Pool { get; private set; }
         
         private EnemyManager enemyManager;
+        private DataManager     dataManager;
+        private ParticleManager particleManager;
 
         public ShootAbility ShootAbility;
         
@@ -22,7 +24,9 @@ namespace Color_Em_Up
 
         public void Initialized()
         {
-            enemyManager = ApplicationManager.Instance.Get<EnemyManager>();
+            enemyManager    = ApplicationManager.Instance.Get<EnemyManager>();
+            dataManager     = ApplicationManager.Instance.Get<DataManager>();
+            particleManager = ApplicationManager.Instance.Get<ParticleManager>();
             
             MoveBehavior
                 .SetTargetRigidbody(ColliderControl.Rigidbody);
@@ -39,6 +43,16 @@ namespace Color_Em_Up
         public void ReturnToPool()
         {
             Pool?.Release(this);
+        }
+
+        public void OnHitHandler(Bullet _bullet)
+        {
+            var _p = particleManager.ParticlePool.Pool.Get().OnEnemyDestroyedParticle;
+            _p.transform.position = transform.position;
+            _p.Play();
+            
+            dataManager.IncreaseScore(10);
+            ReturnToPool();
         }
     }
 }
