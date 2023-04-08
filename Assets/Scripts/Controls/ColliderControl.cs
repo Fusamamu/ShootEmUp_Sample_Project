@@ -19,14 +19,28 @@ namespace Color_Em_Up
         }
 #endif
 
-        public void EnableCollider()
+        public void EnableColliderAfterSecond(float _seconds)
+        {
+            StartCoroutine(EnableColliderCoroutine(_seconds));
+        }
+
+        private IEnumerator EnableColliderCoroutine(float _seconds)
+        {
+            yield return new WaitForSeconds(_seconds);
+            
+            EnableCollider();
+        }
+
+        public ColliderControl EnableCollider()
         {
             Collider.enabled = true;
+            return this;
         }
         
-        public void DisableCollider()
+        public ColliderControl DisableCollider()
         {
             Collider.enabled = false;
+            return this;
         }
     }
 }

@@ -20,11 +20,26 @@ namespace Color_Em_Up
         public Player SpawnPlayer()
         {
             var _player = Instantiate(PlayerPrefab, PlayerSpawnPosition.position, Quaternion.identity);
+            
             _player.Initialized();
             
             CurrentActivePlayer = _player;
             
             return _player;
+        }
+
+        public void ResetPlayerPosition()
+        {
+            if (CurrentActivePlayer)
+            {
+                StartCoroutine(CurrentActivePlayer.RespawnCoroutine(PlayerSpawnPosition.position));
+            }
+        }
+
+        public void NotifyPlayerIsDestroyed(Player _player)
+        {
+            StartCoroutine(CurrentActivePlayer
+                .RespawnCoroutine(PlayerSpawnPosition.position, CurrentActivePlayer.StartCoolDown));
         }
     }
 }

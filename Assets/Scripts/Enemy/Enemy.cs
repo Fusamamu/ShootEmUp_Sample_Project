@@ -5,7 +5,7 @@ using UnityEngine.Pool;
 
 namespace Color_Em_Up
 {
-    public class Enemy : MonoBehaviour, IPoolAble<Enemy>
+    public class Enemy : MonoBehaviour, IEntity, IPoolAble<Enemy>
     {
         public IObjectPool<Enemy> Pool { get; private set; }
         
@@ -46,6 +46,11 @@ namespace Color_Em_Up
         }
 
         public void OnHitHandler(Bullet _bullet)
+        {
+            DestroyedEntity();
+        }
+
+        public void DestroyedEntity()
         {
             var _p = particleManager.ParticlePool.Pool.Get().OnEnemyDestroyedParticle;
             _p.transform.position = transform.position;

@@ -37,6 +37,7 @@ namespace Color_Em_Up
 
         protected override void OnRelease(Bullet _bullet)
         {
+            _bullet.ColliderControl.Rigidbody.velocity = Vector3.zero;
             _bullet.gameObject.SetActive(false);
         }
 

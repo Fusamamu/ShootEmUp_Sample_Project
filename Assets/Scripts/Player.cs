@@ -1,11 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using MoreMountains.Feedbacks;
+using UniRx;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Color_Em_Up
 {
-    public class Player : MonoBehaviour
+    public class Player : MonoBehaviour, IEntity
     {
         private InputManager inputManager;
         
@@ -17,10 +20,24 @@ namespace Color_Em_Up
         
         [field: SerializeField] public BodyTiltingBehavior BodyTiltingBehavior { get; private set; }
 
+        [SerializeField] private MMF_Player OnRespawnAnimation;
+
+        private PlayerManager playerManager;
+
+        [Header("Cool Down Setting")]
+        [SerializeField] private bool IsCoolDown;
+        [SerializeField] private float CoolDownTimer = 3;
+
+        private IDisposable startCoolDownTimer;
+
         public void Initialized()
         {
             inputManager = ApplicationManager.Instance.Get<InputManager>();
             inputManager.PlayerInput.Enable();
+
+            ColliderControl
+                .DisableCollider()
+                .EnableColliderAfterSecond(3f);
 
             MovementControl
                 .BindInput(inputManager.PlayerInput)
@@ -32,8 +49,62 @@ namespace Color_Em_Up
 
             BodyTiltingBehavior.Initialized();
             BodyTiltingBehavior.StartTilting();
-        }
 
+            playerManager = ApplicationManager.Instance.Get<PlayerManager>();
+            
+            if(OnRespawnAnimation)
+                OnRespawnAnimation.Initialization();
+        }
+        
+        public IEnumerator RespawnCoroutine(Vector3 _targetPos, Action _onRespawnCompleted = null)
+        {
+            ColliderControl.Rigidbody.velocity = Vector3.zero;
+            transform.position = _targetPos;
+            
+            gameObject.SetActive(false);
+            yield return new WaitForSeconds(1.5f);
+            gameObject.SetActive(true);
+            
+            if(OnRespawnAnimation)
+                OnRespawnAnimation.PlayFeedbacks();
+            
+            _onRespawnCompleted?.Invoke();
+        }
+        
+        public void OnCollisionEnter(Collision _other)
+        {
+            if (_other.gameObject.TryGetComponent<Enemy>(out var _enemy))
+            {
+                _enemy.DestroyedEntity();
+            }
+
+            if (!IsCoolDown)
+                DestroyedEntity();
+        }
+        
+        public void DestroyedEntity()
+        {
+            playerManager.NotifyPlayerIsDestroyed(this);
+        }
+        
+        public void StartCoolDown()
+        {
+            IsCoolDown = true;
+
+            startCoolDownTimer = Observable.EveryUpdate().Subscribe(_ =>
+            {
+                CoolDownTimer -= Time.deltaTime;
+
+                if (CoolDownTimer <= 0)
+                {
+                    CoolDownTimer = 3f;
+                    IsCoolDown    = false;
+                    startCoolDownTimer?.Dispose();
+                }
+
+            }).AddTo(this);
+        }
+        
         private void OnDestroy()
         {
             inputManager.PlayerInput.Disable();
