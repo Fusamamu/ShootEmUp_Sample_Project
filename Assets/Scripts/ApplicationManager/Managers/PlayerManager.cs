@@ -15,6 +15,7 @@ namespace Color_Em_Up
         [SerializeField] private Player PlayerPrefab;
         [SerializeField] private Transform PlayerSpawnPosition;
 
+        private DataManager     dataManager;
         private UIManager       uiManager;
         private AudioManager    audioManager;
         private ParticleManager particleManager;
@@ -29,6 +30,7 @@ namespace Color_Em_Up
             base.Initialized();
             CurrentLifeAmount = InitialLifeAmount;
 
+            dataManager     = ApplicationManager.Instance.Get<DataManager>();
             uiManager       = ApplicationManager.Instance.Get<UIManager>();
             audioManager    = ApplicationManager.Instance.Get<AudioManager>();
             particleManager = ApplicationManager.Instance.Get<ParticleManager>();
@@ -64,14 +66,11 @@ namespace Color_Em_Up
             particleManager.PlayParticle(ParticleType.PLAYER_DESTROYED, _player.transform.position);
             audioManager   .PlaySound   (SoundType.PlayerDestroyed);
             
-            // var _p = particleManager.PoolSystem.Pool.Get().OnPlayerDestroyedParticle;
-            // _p.transform.position = _player.transform.position;
-            // _p.Play();
-            
             if (CurrentLifeAmount == 0)
             {
                 gameOverUI.Open();
                 audioManager.StopSound(SoundType.BGM);
+                
                 OnGameOverEvent?.Invoke(CurrentActivePlayer);
                 return;
             }

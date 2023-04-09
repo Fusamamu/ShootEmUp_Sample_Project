@@ -1157,57 +1157,6 @@ MonoBehaviour:
       - EnemyCount: 20
         Type: 2
         SpawnInterval: 0.5
-  - LevelIndex: 0
-    WaveData:
-    - NextWaveDelay: 0
-      EnemyData:
-      - EnemyCount: 10
-        Type: 1
-        SpawnInterval: 2
-    - NextWaveDelay: 0
-      EnemyData:
-      - EnemyCount: 10
-        Type: 1
-        SpawnInterval: 2
-    - NextWaveDelay: 0
-      EnemyData:
-      - EnemyCount: 10
-        Type: 1
-        SpawnInterval: 2
-  - LevelIndex: 0
-    WaveData:
-    - NextWaveDelay: 0
-      EnemyData:
-      - EnemyCount: 10
-        Type: 1
-        SpawnInterval: 2
-    - NextWaveDelay: 0
-      EnemyData:
-      - EnemyCount: 10
-        Type: 1
-        SpawnInterval: 2
-    - NextWaveDelay: 0
-      EnemyData:
-      - EnemyCount: 10
-        Type: 1
-        SpawnInterval: 2
-  - LevelIndex: 0
-    WaveData:
-    - NextWaveDelay: 0
-      EnemyData:
-      - EnemyCount: 10
-        Type: 1
-        SpawnInterval: 2
-    - NextWaveDelay: 0
-      EnemyData:
-      - EnemyCount: 10
-        Type: 1
-        SpawnInterval: 2
-    - NextWaveDelay: 0
-      EnemyData:
-      - EnemyCount: 10
-        Type: 1
-        SpawnInterval: 2
 --- !u!1 &232174794
 GameObject:
   m_ObjectHideFlags: 0
@@ -2709,8 +2658,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 224.9}
-  m_SizeDelta: {x: 1600, y: 900}
+  m_AnchoredPosition: {x: 0, y: 224.4}
+  m_SizeDelta: {x: 800, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &867576254
 GameObject:
@@ -3432,7 +3381,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 9999
+  m_text: 0000
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6810dd1231d5a4b3e85e0d6a1c3f220b, type: 2}
   m_sharedMaterial: {fileID: 8296642796908725253, guid: 6810dd1231d5a4b3e85e0d6a1c3f220b, type: 2}
@@ -9638,6 +9587,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <HighScore>k__BackingField: 0
   <CurrentScore>k__BackingField: 0
+  TopHighScore: 000000000000000000000000
   UIManager: {fileID: 1975688712}
   TopLeftUI: {fileID: 459742838}
 --- !u!1 &1389614682
@@ -11825,6 +11775,7 @@ MonoBehaviour:
   CanvasRectTransform: {fileID: 1920891927}
   ContinueButton: {fileID: 43936695}
   QuitButton: {fileID: 550867453}
+  FinalScoreUI: {fileID: 1993580512}
 --- !u!1 &1925740437
 GameObject:
   m_ObjectHideFlags: 0
@@ -12718,6 +12669,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1993580511}
+  - component: {fileID: 1993580512}
   m_Layer: 0
   m_Name: FinalScore
   m_TagString: Untagged
@@ -12747,6 +12699,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -300.7}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1993580512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1993580510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bb3bc4c563c741f28a950a06b0477d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FinalScoreText: {fileID: 1792171833}
+  ScoreText_1: {fileID: 214168245}
+  ScoreText_2: {fileID: 1614889294}
+  ScoreText_3: {fileID: 2142925530}
 --- !u!1 &2003255451
 GameObject:
   m_ObjectHideFlags: 0

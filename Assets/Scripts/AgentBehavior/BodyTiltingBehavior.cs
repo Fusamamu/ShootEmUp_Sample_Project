@@ -43,16 +43,16 @@ namespace Color_Em_Up
             tilting = Observable.EveryUpdate().Subscribe(_ =>
             {
                 Vector3 _currentPos = transform.position;
-                Vector3 _offset = _currentPos - oldPosition;
+                Vector3 _offset     = _currentPos - oldPosition;
 
                 if (_offset.sqrMagnitude > Mathf.Epsilon)
                 {
                     pitchAngle = Mathf.Clamp(pitchAngle + _offset.z * PitchForce, PitchMinAngle, PitchMaxAngle);
-                    rollAngle = Mathf.Clamp(rollAngle + _offset.x * RollForce, RollMinAngle, RollMaxAngle);
+                    rollAngle  = Mathf.Clamp(rollAngle  + _offset.x * RollForce , RollMinAngle , RollMaxAngle);
                 }
 
                 pitchAngle = Mathf.SmoothDamp(pitchAngle, 0.0f, ref pitchVelocity, RestTime * Time.deltaTime * 10.0f);
-                rollAngle = Mathf.SmoothDamp(rollAngle, 0.0f, ref rollVelocity, RestTime * Time.deltaTime * 10.0f);
+                rollAngle  = Mathf.SmoothDamp(rollAngle , 0.0f, ref rollVelocity , RestTime * Time.deltaTime * 10.0f);
 
                 transform.rotation = Quaternion.Euler(originalAngles.x + pitchAngle,
                     originalAngles.y,

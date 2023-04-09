@@ -9,6 +9,8 @@ namespace Color_Em_Up
     {
         [SerializeField] private ButtonUI ContinueButton;
         [SerializeField] private ButtonUI QuitButton;
+
+        public FinalScoreUI FinalScoreUI;
         
         public override void Initialized()
         {
@@ -16,6 +18,8 @@ namespace Color_Em_Up
 
             ContinueButton.Button.onClick.AddListener(OnContinueButtonClicked);
             QuitButton    .Button.onClick.AddListener(OnQuitButtonClickedHandler);
+
+            FinalScoreUI.Initialized();
         }
         
         private void OnContinueButtonClicked()
@@ -37,6 +41,8 @@ namespace Color_Em_Up
         public override void Open(Action<GameUI> _onOpenCompleted = null)
         {
             base.Open(_onOpenCompleted);
+            
+            FinalScoreUI.UpdateScore();
         }
 
         public override void Close(Action<GameUI> _onCloseCompleted = null)
