@@ -13,9 +13,6 @@ namespace Color_Em_Up
         ON_POINTER_EXIT, 
         ON_POINTER_CLICKED,
         ON_POINTER_DOWN,
-        ON_POINTER_BEGIN_DRAG,
-        ON_POINTER_DRAG,
-        ON_POINTER_ENGDRAG
     }
     
     public class PointerEventHandle : MonoBehaviour, IDisposable

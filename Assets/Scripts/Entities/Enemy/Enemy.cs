@@ -61,10 +61,6 @@ namespace Color_Em_Up
         {
             dataManager.IncreaseScore(10);
             
-            // var _particle = particleManager.PoolSystem.Pool.Get().OnEnemyDestroyedParticle;
-            // _particle.transform.position = transform.position;
-            // _particle.Play();
-            
             particleManager.PlayParticle(ParticleType.EXPLODE, transform.position);
             audioManager   .PlaySound(SoundType.Explode);
             

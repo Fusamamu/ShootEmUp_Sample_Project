@@ -43,6 +43,13 @@ namespace Color_Em_Up
             TopLeftUI.ScoreUI.SetScore(CurrentScore);
             return this;
         }
+        
+        public DataManager ResetCurrentScore()
+        {
+            CurrentScore = 0;
+            TopLeftUI.ScoreUI.SetScore(CurrentScore);
+            return this;
+        }
 
         public DataManager UpdateHighScore()
         {

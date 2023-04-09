@@ -12,6 +12,7 @@ namespace Color_Em_Up
 
         private Dictionary<int, LevelData> levelTable = new Dictionary<int, LevelData>();
 
+        private DataManager     dataManager;
         private AudioManager    audioManager;
         private PlayerManager   playerManager;
         private EnemyManager    enemyManager;
@@ -24,11 +25,14 @@ namespace Color_Em_Up
         private TopHeaderUI topHeaderUI;
 
         private Coroutine levelUpdateProcess;
+
+        [SerializeField] private Material LevelBackgroundMaterial;
         
         public override void Initialized()
         {
             base.Initialized();
 
+            dataManager     = ApplicationManager.Instance.Get<DataManager>();
             audioManager    = ApplicationManager.Instance.Get<AudioManager>();
             playerManager   = ApplicationManager.Instance.Get<PlayerManager>();
             enemyManager    = ApplicationManager.Instance.Get<EnemyManager>();
@@ -82,12 +86,16 @@ namespace Color_Em_Up
                    
                 CurrentLevelIndex++;
             }
+            
+            uiManager.GetUI<GameOverUI>().Open();
         }
 
         public IEnumerator StartLevel()
         {
             if (!levelTable.TryGetValue(CurrentLevelIndex, out var _levelData))
                 yield break;
+
+            yield return ChangeLevelBackgroundColor(_levelData.LevelBackgroundColor);
             
             var _currentWaveIndex = 0;
 
@@ -104,6 +112,18 @@ namespace Color_Em_Up
             }
         }
 
+        private IEnumerator ChangeLevelBackgroundColor(Color _color)
+        {
+            float _elapsedTime = 0.0f;
+            
+            while (_elapsedTime < 1.0f) 
+            {
+                _elapsedTime += Time.deltaTime;
+                LevelBackgroundMaterial.color = Color.Lerp(LevelBackgroundMaterial.color, _color, _elapsedTime / 1.0f);
+                yield return null;
+            }
+        }
+        
         public void StopUpdateLevel()
         {
             StopCoroutine(levelUpdateProcess);
@@ -120,7 +140,9 @@ namespace Color_Em_Up
             foreach (var _reset in ApplicationManager.Instance.GetAllResetManagers())
                 _reset.Reset();
             
+            dataManager.ResetCurrentScore();
             CurrentLevelIndex = 0;
+            
             RunLevel();
         }
     }

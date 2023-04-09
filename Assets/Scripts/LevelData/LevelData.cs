@@ -11,6 +11,9 @@ namespace Color_Em_Up
         public int WaveCount => WaveData.Count;
         
         public int LevelIndex;
+        
         public List<WaveData> WaveData;
+
+        public Color LevelBackgroundColor;
     }
 }
