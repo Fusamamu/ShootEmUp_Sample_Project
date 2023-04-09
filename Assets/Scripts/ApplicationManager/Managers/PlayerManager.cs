@@ -15,7 +15,6 @@ namespace Color_Em_Up
         [SerializeField] private Player PlayerPrefab;
         [SerializeField] private Transform PlayerSpawnPosition;
 
-        private DataManager     dataManager;
         private UIManager       uiManager;
         private AudioManager    audioManager;
         private ParticleManager particleManager;
@@ -30,7 +29,6 @@ namespace Color_Em_Up
             base.Initialized();
             CurrentLifeAmount = InitialLifeAmount;
 
-            dataManager     = ApplicationManager.Instance.Get<DataManager>();
             uiManager       = ApplicationManager.Instance.Get<UIManager>();
             audioManager    = ApplicationManager.Instance.Get<AudioManager>();
             particleManager = ApplicationManager.Instance.Get<ParticleManager>();

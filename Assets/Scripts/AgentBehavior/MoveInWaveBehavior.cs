@@ -14,13 +14,16 @@ namespace Color_Em_Up
         [field: SerializeField] public float   ForwardSpeed   { get; private set; }
         [field: SerializeField] public float   SineSpeed      { get; private set; }
         [field: SerializeField] public float   HeightOffset   { get; private set; }
+        
+        [field: SerializeField] public bool    MoveVertical   { get; private set; }
+        [field: SerializeField] public bool    MoveLateral    { get; private set; }
 
         private IDisposable moveProcess;
-        
-        public MoveInWaveBehavior SetTarget(Transform _target)
+
+        public MoveInWaveBehavior Reset()
         {
-            target         = _target;
-            OriginPosition = _target.transform.position;
+            MoveVertical = false;
+            MoveLateral  = false;
             return this;
         }
         
@@ -42,17 +45,34 @@ namespace Color_Em_Up
             return this;
         }
 
+        public MoveInWaveBehavior SetMoveDirection(bool _vertical, bool _lateral)
+        {
+            MoveVertical = _vertical;
+            MoveLateral  = _lateral;
+            return this;
+        }
+
         public void StartMoveInSineWave()
         {
             StopMove();
             
             moveProcess = Observable.EveryLateUpdate().Subscribe(_ =>
             {
-                var _yPos = HeightOffset;
                 var _zPos = transform.position.z - Time.deltaTime * ForwardSpeed;
-                var _xPos = Mathf.Sin(_zPos) * 3;
-                
-                transform.position = new Vector3(_xPos, _yPos, _zPos);
+                var _sineResult = Mathf.Sin(_zPos) * 3;
+
+                if (MoveVertical && !MoveLateral)
+                {
+                    transform.position = new Vector3(transform.position.x, _sineResult, _zPos);
+                }
+                else if (MoveLateral && !MoveVertical)
+                {
+                    transform.position = new Vector3(_sineResult, HeightOffset, _zPos);
+                }
+                else if (MoveVertical && MoveLateral)
+                {
+                    transform.position = new Vector3(_sineResult, _sineResult, _zPos);
+                }
 
             }).AddTo(this);
         }
