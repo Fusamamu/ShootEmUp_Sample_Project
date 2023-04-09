@@ -20,12 +20,14 @@ namespace Color_Em_Up
         private Tween rotateTween;
 
         private BulletManager bulletManager;
+        private AudioManager  audioManager;
 
         public ParticleSystem ShootingParticle;
 
         public void Initialize()
         {
             bulletManager = ApplicationManager.Instance.Get<BulletManager>();
+            audioManager  = ApplicationManager.Instance.Get<AudioManager>();
         }
 
         public WeaponControl BindInput(PlayerInput _input)
@@ -85,6 +87,8 @@ namespace Color_Em_Up
                     .SetDirection(_direction)
                     .SetVelocity(20)
                     .Shoot();
+                
+                audioManager.PlaySound(SoundType.Shoot);
             }
 
             if (ShootingParticle)

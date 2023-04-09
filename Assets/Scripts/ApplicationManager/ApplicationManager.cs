@@ -29,6 +29,17 @@ namespace Color_Em_Up
             }
         }
 
+        public IEnumerable<IReset> GetAllResetManagers()
+        {
+            foreach (var _manager in managerTable.Values)
+            {
+                if (_manager is IReset _reset)
+                {
+                    yield return _reset;
+                }
+            }
+        }
+
         public T Get<T>() where T : AppManager
         {
             string _key = typeof(T).Name;

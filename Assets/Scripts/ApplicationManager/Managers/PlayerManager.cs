@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Color_Em_Up
 {
-    public class PlayerManager : AppManager
+    public class PlayerManager : AppManager, IReset
     {
         [SerializeField] private int InitialLifeAmount = 3;
         [SerializeField] private int CurrentLifeAmount;
@@ -15,7 +15,9 @@ namespace Color_Em_Up
         [SerializeField] private Player PlayerPrefab;
         [SerializeField] private Transform PlayerSpawnPosition;
 
-        private UIManager uiManager;
+        private UIManager       uiManager;
+        private AudioManager    audioManager;
+        private ParticleManager particleManager;
         
         private TopLeftUI  topLeftUI;
         private GameOverUI gameOverUI;
@@ -27,7 +29,9 @@ namespace Color_Em_Up
             base.Initialized();
             CurrentLifeAmount = InitialLifeAmount;
 
-            uiManager  = ApplicationManager.Instance.Get<UIManager>();
+            uiManager       = ApplicationManager.Instance.Get<UIManager>();
+            audioManager    = ApplicationManager.Instance.Get<AudioManager>();
+            particleManager = ApplicationManager.Instance.Get<ParticleManager>();
             
             topLeftUI  = uiManager.GetUI<TopLeftUI>();
             gameOverUI = uiManager.GetUI<GameOverUI>();
@@ -57,9 +61,17 @@ namespace Color_Em_Up
             CurrentLifeAmount--;
             topLeftUI.PlayerLifeUI.DecreaseLife();
             
+            particleManager.PlayParticle(ParticleType.PLAYER_DESTROYED, _player.transform.position);
+            audioManager   .PlaySound   (SoundType.PlayerDestroyed);
+            
+            // var _p = particleManager.PoolSystem.Pool.Get().OnPlayerDestroyedParticle;
+            // _p.transform.position = _player.transform.position;
+            // _p.Play();
+            
             if (CurrentLifeAmount == 0)
             {
                 gameOverUI.Open();
+                audioManager.StopSound(SoundType.BGM);
                 OnGameOverEvent?.Invoke(CurrentActivePlayer);
                 return;
             }

@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using FSM;
 using UnityEngine;
 
 namespace Color_Em_Up
@@ -13,6 +12,7 @@ namespace Color_Em_Up
 
         private Dictionary<int, LevelData> levelTable = new Dictionary<int, LevelData>();
 
+        private AudioManager    audioManager;
         private PlayerManager   playerManager;
         private EnemyManager    enemyManager;
         private WaveManager     waveManager;
@@ -23,26 +23,19 @@ namespace Color_Em_Up
         private UIManager   uiManager;
         private TopHeaderUI topHeaderUI;
 
-        private StateMachine gameStateMachine = new StateMachine();
-
-        private string levelRun      = "LevelChange";
-        private string levelChange   = "LevelChange";
-        private string gameOverState = "GameOver";
-
         private Coroutine levelUpdateProcess;
         
         public override void Initialized()
         {
             base.Initialized();
 
+            audioManager    = ApplicationManager.Instance.Get<AudioManager>();
             playerManager   = ApplicationManager.Instance.Get<PlayerManager>();
             enemyManager    = ApplicationManager.Instance.Get<EnemyManager>();
             waveManager     = ApplicationManager.Instance.Get<WaveManager>();
-            
             particleManager = ApplicationManager.Instance.Get<ParticleManager>();
             bulletManager   = ApplicationManager.Instance.Get<BulletManager>();
             asteroidManager = ApplicationManager.Instance.Get<AsteroidManager>();
-            
             uiManager       = ApplicationManager.Instance.Get<UIManager>();
 
             topHeaderUI = uiManager.GetUI<TopHeaderUI>();
@@ -53,43 +46,6 @@ namespace Color_Em_Up
                 _levelData.LevelIndex = _i;
                 levelTable.Add(_i, _levelData);
             }
-
-            gameStateMachine.AddState(levelRun, 
-                new State(onEnter: _state =>
-                {
-
-                }, onLogic: _state =>
-                {
-                    
-                },onExit: _state =>
-                {
-                  
-                }));
-            
-            gameStateMachine.AddState(levelChange, 
-                new State(onEnter: _state =>
-                {
-
-                }, onLogic: _state =>
-                {
-                    
-                },onExit: _state =>
-                {
-                  
-                }));
-            
-            
-            gameStateMachine.AddState(gameOverState, 
-                new State(onEnter: _state =>
-                {
-
-                }, onLogic: _state =>
-                {
-                    
-                },onExit: _state =>
-                {
-                  
-                }));
 
             playerManager.OnGameOverEvent += _player =>
             {
@@ -105,8 +61,11 @@ namespace Color_Em_Up
 
         public void RunLevel()
         {
-            playerManager.SpawnPlayer();
+            audioManager.PlaySound(SoundType.BGM);
+            
+            playerManager  .SpawnPlayer();
             asteroidManager.StartSpawn();
+            
             levelUpdateProcess = StartCoroutine(UpdateLevel());
         }
 
@@ -153,13 +112,13 @@ namespace Color_Em_Up
 
         public void RestartLevel()
         {
-            enemyManager   .PoolSystem.ClearPool();
             bulletManager  .PoolSystem.ClearPool();
             particleManager.PoolSystem.ClearPool();
+            enemyManager   .PoolSystem.ClearPool();
             asteroidManager.PoolSystem.ClearPool();
             
-            waveManager  .Reset();
-            playerManager.Reset();
+            foreach (var _reset in ApplicationManager.Instance.GetAllResetManagers())
+                _reset.Reset();
             
             CurrentLevelIndex = 0;
             RunLevel();

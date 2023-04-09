@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Color_Em_Up
 {
-    public class WaveManager : AppManager
+    public class WaveManager : AppManager, IReset
     {
         [field: SerializeField] public int CurrentWaveIndex { get; private set; }
 
@@ -69,9 +69,7 @@ namespace Color_Em_Up
                 _progressBarUI.SetProgressPercent(_percent);
 
                 if (WaveTimer <= 0)
-                {
                     StopWaveTime();
-                }
 
             }).AddTo(this);
 

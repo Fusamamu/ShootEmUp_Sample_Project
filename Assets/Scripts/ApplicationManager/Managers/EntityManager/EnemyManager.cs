@@ -22,7 +22,6 @@ namespace Color_Em_Up
             PoolSystem.Initialized();
         }
         
-        //Can pass enemy data
         public IEnumerator SpawnEnemyIntervalAtPosition(EnemyData _enemyData, Vector3 _targetPos)
         {
             var _enemyType      = _enemyData.Type;
